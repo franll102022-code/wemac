@@ -2,24 +2,14 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-type ViewType = "home" | "productos" | "contacto";
-
 const videoPrimary =
   "https://cdn.coverr.co/videos/coverr-working-in-a-warehouse-9714/1080p.mp4";
 
 const videoSecondary =
   "https://cdn.coverr.co/videos/coverr-forklift-in-warehouse-1572/1080p.mp4";
 
-function makeSvg({
-  accent = "#111111",
-  label = "WEMAC",
-  shape = "roll",
-}: {
-  accent?: string;
-  label?: string;
-  shape?: "roll" | "towel" | "soap" | "dispenser" | "bottle" | "wipes";
-}) {
-  const art: Record<string, string> = {
+function makeSvg({ accent = "#111111", label = "WEMAC", shape = "roll" }) {
+  const art = {
     roll: `
       <ellipse cx="210" cy="230" rx="118" ry="22" fill="#ececec"/>
       <rect x="88" y="92" width="244" height="122" rx="61" fill="${accent}"/>
@@ -73,8 +63,8 @@ function makeSvg({
 }
 
 export default function HomePage() {
-  const [view, setView] = useState<ViewType>("home");
-  const [transitionTarget, setTransitionTarget] = useState<ViewType | null>(null);
+  const [view, setView] = useState("home");
+  const [transitionTarget, setTransitionTarget] = useState(null);
 
   useEffect(() => {
     const html = document.documentElement;
@@ -114,53 +104,11 @@ export default function HomePage() {
           "Presentaciones para higiene diaria en baños, tocadores y áreas de uso continuo.",
         image: makeSvg({ accent: "#2f2f2f", label: "JABÓN LÍQUIDO", shape: "soap" }),
       },
-      {
-        name: "Bobina de papel",
-        description:
-          "Bobinas de toalla de papel para uso intensivo y reposición práctica.",
-        image: makeSvg({ accent: "#151515", label: "BOBINA DE PAPEL", shape: "roll" }),
-      },
-      {
-        name: "Lavandina",
-        description:
-          "Producto de limpieza para mantenimiento diario en entornos comerciales e institucionales.",
-        image: makeSvg({ accent: "#2649ff", label: "LAVANDINA", shape: "bottle" }),
-      },
-      {
-        name: "Detergente líquido",
-        description:
-          "Detergente para vajilla y superficies, pensado para entornos de uso frecuente.",
-        image: makeSvg({ accent: "#0f0f0f", label: "DETERGENTE", shape: "bottle" }),
-      },
-      {
-        name: "Bobina industrial",
-        description:
-          "Toalla de papel en rollo para sectores operativos, cocinas y espacios de trabajo.",
-        image: makeSvg({ accent: "#171717", label: "BOBINA INDUSTRIAL", shape: "roll" }),
-      },
-      {
-        name: "Paño azul en rollo",
-        description:
-          "Paño técnico en rollo para limpieza profesional, absorción y uso operativo.",
-        image: makeSvg({ accent: "#1557ff", label: "PAÑO AZUL", shape: "wipes" }),
-      },
-      {
-        name: "Dispensadores para jabón",
-        description:
-          "Contenedores sobrios y resistentes, con estética limpia para baños y áreas comunes.",
-        image: makeSvg({ accent: "#1e1e1e", label: "DISPENSADOR JABÓN", shape: "dispenser" }),
-      },
-      {
-        name: "Dispensadores para papel",
-        description:
-          "Dispensadores profesionales para una presentación ordenada y funcional.",
-        image: makeSvg({ accent: "#131313", label: "DISPENSADOR PAPEL", shape: "dispenser" }),
-      },
     ],
     []
   );
 
-  const openView = (target: ViewType) => {
+  const openView = (target) => {
     setTransitionTarget(target);
     setTimeout(() => setView(target), 420);
     setTimeout(() => setTransitionTarget(null), 900);
@@ -176,128 +124,56 @@ export default function HomePage() {
   };
 
   return (
-    <div className="site">
+    <div>
       {transitionTarget && (
-        <div className="transition-screen">
-          <div className="transition-inner">
-            <img src="/logo-wemac.png" alt="WEMAC" className="transition-logo" />
-            <div className="transition-label">
-              {transitionTarget === "productos"
-                ? "Productos"
-                : transitionTarget === "contacto"
-                ? "Contacto"
-                : "Inicio"}
-            </div>
-          </div>
+        <div style={{ position: "fixed", inset: 0, background: "#fff", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div>{transitionTarget}</div>
         </div>
       )}
 
       {view === "home" && (
-        <main className="hero-page">
-          <section className="hero">
-            <div className="hero-video-wrap">
-              <video
-                className="hero-video"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-                poster="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1600"
-              >
-                <source src={videoPrimary} type="video/mp4" />
-                <source src={videoSecondary} type="video/mp4" />
-              </video>
+        <main style={{ height: "100vh", position: "relative", overflow: "hidden", background: "#000" }}>
+          <video autoPlay loop muted playsInline style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(1) brightness(0.45)" }}>
+            <source src={videoPrimary} type="video/mp4" />
+            <source src={videoSecondary} type="video/mp4" />
+          </video>
+
+          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "#fff" }}>
+            <img src="/logo-wemac.png" alt="WEMAC" style={{ width: "320px", maxWidth: "80vw" }} />
+            <p style={{ marginTop: 24 }}>productos de higiene · dispensadores · abastecimiento profesional</p>
+            <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
+              <button onClick={() => openView("productos")}>VER PRODUCTOS</button>
+              <button onClick={() => openView("contacto")}>CONTACTO</button>
             </div>
-
-            <div className="hero-overlay" />
-            <div className="hero-noise" />
-
-            <div className="hero-content">
-              <img src="/logo-wemac.png" alt="WEMAC" className="hero-logo" />
-              <p className="hero-subtitle">
-                productos de higiene · dispensadores · abastecimiento profesional
-              </p>
-
-              <div className="hero-actions">
-                <button className="btn btn-light" onClick={() => openView("productos")}>
-                  VER PRODUCTOS
-                </button>
-                <button className="btn btn-dark" onClick={() => openView("contacto")}>
-                  CONTACTO
-                </button>
-              </div>
-            </div>
-          </section>
+          </div>
         </main>
       )}
 
       {view === "productos" && (
-        <main className="section-page light-page">
-          <header className="topbar topbar-light">
-            <button className="top-link" onClick={goHome}>
-              Volver
-            </button>
-            <img src="/logo-wemac.png" alt="WEMAC" className="topbar-logo" />
-            <button className="top-link" onClick={() => openView("contacto")}>
-              Contacto
-            </button>
-          </header>
-
-          <section className="products-wrap">
-            <div className="section-head">
-              <div>
-                <div className="eyebrow">WEMAC</div>
-                <h1>Productos</h1>
-              </div>
-              <p>
-                Catálogo visual con presentación limpia, fondo blanco uniforme y una estética
-                profesional para comunicar cada línea de producto de forma clara.
-              </p>
-            </div>
-
-            <div className="products-grid">
-              {products.map((product) => (
-                <article key={product.name} className="product-card">
-                  <div className="product-image-wrap">
-                    <img src={product.image} alt={product.name} className="product-image" />
-                  </div>
-                  <div className="product-content">
-                    <h3>{product.name}</h3>
-                    <p>{product.description}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
+        <main style={{ minHeight: "100vh", padding: 40 }}>
+          <button onClick={goHome}>Volver</button>
+          <h1>Productos</h1>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 24 }}>
+            {products.map((product) => (
+              <article key={product.name} style={{ border: "1px solid #ddd", borderRadius: 20, padding: 16 }}>
+                <img src={product.image} alt={product.name} style={{ width: "100%", borderRadius: 16 }} />
+                <h3>{product.name}</h3>
+                <p>{product.description}</p>
+              </article>
+            ))}
+          </div>
         </main>
       )}
 
       {view === "contacto" && (
-        <main className="section-page dark-page">
-          <header className="topbar topbar-dark">
-            <button className="top-link dark" onClick={goHome}>
-              Volver
-            </button>
-            <img src="/logo-wemac.png" alt="WEMAC" className="topbar-logo" />
-            <button className="top-link dark" onClick={() => openView("productos")}>
-              Productos
-            </button>
-          </header>
-
-          <section className="contact-wrap">
-            <img src="/logo-wemac.png" alt="WEMAC" className="contact-logo" />
-            <div className="eyebrow dark">Contacto</div>
-            <h1>Hablemos</h1>
-            <p>Consultas comerciales, pedidos y coordinación directa con WEMAC.</p>
-
-            <a href="mailto:ventas@wemac.com.ar" className="contact-mail">
-              ventas@wemac.com.ar
-            </a>
-          </section>
+        <main style={{ minHeight: "100vh", padding: 40, background: "#000", color: "#fff" }}>
+          <button onClick={goHome}>Volver</button>
+          <h1>Hablemos</h1>
+          <a href="mailto:ventas@wemac.com.ar" style={{ color: "#fff" }}>
+            ventas@wemac.com.ar
+          </a>
         </main>
       )}
     </div>
   );
 }
-// update
