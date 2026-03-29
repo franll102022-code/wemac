@@ -90,19 +90,31 @@ export default function HomePage() {
         name: "Papel higiénico",
         description:
           "Línea institucional de papel higiénico para baños de alto tránsito y reposición eficiente.",
-        image: makeSvg({ accent: "#202020", label: "PAPEL HIGIÉNICO", shape: "roll" }),
+        image: makeSvg({
+          accent: "#202020",
+          label: "PAPEL HIGIÉNICO",
+          shape: "roll",
+        }),
       },
       {
         name: "Toalla de papel intercalada",
         description:
           "Toallas intercaladas para baños, oficinas, locales y espacios profesionales.",
-        image: makeSvg({ accent: "#111111", label: "TOALLA INTERCALADA", shape: "towel" }),
+        image: makeSvg({
+          accent: "#111111",
+          label: "TOALLA INTERCALADA",
+          shape: "towel",
+        }),
       },
       {
         name: "Jabón líquido para manos",
         description:
           "Presentaciones para higiene diaria en baños, tocadores y áreas de uso continuo.",
-        image: makeSvg({ accent: "#2f2f2f", label: "JABÓN LÍQUIDO", shape: "soap" }),
+        image: makeSvg({
+          accent: "#2f2f2f",
+          label: "JABÓN LÍQUIDO",
+          shape: "soap",
+        }),
       },
     ],
     []
@@ -126,24 +138,72 @@ export default function HomePage() {
   return (
     <div>
       {transitionTarget && (
-        <div style={{ position: "fixed", inset: 0, background: "#fff", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "#fff",
+            zIndex: 999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <div>{transitionTarget}</div>
         </div>
       )}
 
       {view === "home" && (
-        <main style={{ height: "100vh", position: "relative", overflow: "hidden", background: "#000" }}>
-          <video autoPlay loop muted playsInline style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(1) brightness(0.45)" }}>
+        <main
+          style={{
+            height: "100vh",
+            position: "relative",
+            overflow: "hidden",
+            background: "#000",
+          }}
+        >
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              filter: "grayscale(1) brightness(0.45)",
+            }}
+          >
             <source src={videoPrimary} type="video/mp4" />
             <source src={videoSecondary} type="video/mp4" />
           </video>
 
-          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "#fff" }}>
-            <img src="/logo-wemac.png" alt="WEMAC" style={{ width: "320px", maxWidth: "80vw" }} />
-            <p style={{ marginTop: 24 }}>productos de higiene · dispensadores · abastecimiento profesional</p>
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#fff",
+            }}
+          >
+            <img
+              src="/logo-wemac.png"
+              alt="WEMAC"
+              style={{ width: "320px", maxWidth: "80vw" }}
+            />
+            <p style={{ marginTop: 24 }}>
+              productos de higiene · dispensadores · abastecimiento profesional
+            </p>
             <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
-              <button onClick={() => openView("productos")}>VER PRODUCTOS</button>
-              <button onClick={() => openView("contacto")}>CONTACTO</button>
+              <button onClick={() => openView("productos")}>
+                VER PRODUCTOS
+              </button>
+              <button onClick={() => openView("contacto")}>
+                CONTACTO
+              </button>
             </div>
           </div>
         </main>
@@ -153,10 +213,27 @@ export default function HomePage() {
         <main style={{ minHeight: "100vh", padding: 40 }}>
           <button onClick={goHome}>Volver</button>
           <h1>Productos</h1>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 24 }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))",
+              gap: 24,
+            }}
+          >
             {products.map((product) => (
-              <article key={product.name} style={{ border: "1px solid #ddd", borderRadius: 20, padding: 16 }}>
-                <img src={product.image} alt={product.name} style={{ width: "100%", borderRadius: 16 }} />
+              <article
+                key={product.name}
+                style={{
+                  border: "1px solid #ddd",
+                  borderRadius: 20,
+                  padding: 16,
+                }}
+              >
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  style={{ width: "100%", borderRadius: 16 }}
+                />
                 <h3>{product.name}</h3>
                 <p>{product.description}</p>
               </article>
@@ -166,7 +243,14 @@ export default function HomePage() {
       )}
 
       {view === "contacto" && (
-        <main style={{ minHeight: "100vh", padding: 40, background: "#000", color: "#fff" }}>
+        <main
+          style={{
+            minHeight: "100vh",
+            padding: 40,
+            background: "#000",
+            color: "#fff",
+          }}
+        >
           <button onClick={goHome}>Volver</button>
           <h1>Hablemos</h1>
           <a href="mailto:ventas@wemac.com.ar" style={{ color: "#fff" }}>
